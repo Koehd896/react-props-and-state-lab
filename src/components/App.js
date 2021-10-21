@@ -23,7 +23,7 @@ class App extends React.Component {
   }
 
   handleFetch = () => {
-    let queryParam
+    let queryParam;
     if (this.state.filters.type === "all") {
       queryParam = ""
     } else {
