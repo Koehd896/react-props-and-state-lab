@@ -6,7 +6,7 @@ class Pet extends React.Component {
       <div className="card">
         <div className="content">
           <a className="header">
-            {this.props.pet.gender === "male" ? "♀" : "♂"}
+            {this.props.pet.gender === "male" ? "♂" : "♀"}
             {this.props.pet.name}
           </a>
           <div className="meta">
@@ -20,7 +20,7 @@ class Pet extends React.Component {
         <div className="extra content">
           { this.props.pet.isAdopted === true ?
           <button className="ui disabled button">Already adopted</button> :
-          <button className="ui primary button" onClick={this.props.onAdoptPet(this.props.pet.id)}>Adopt pet</button>
+          <button className="ui primary button" onClick={() => this.props.onAdoptPet(this.props.pet.id)}>Adopt pet</button>
           }
         </div>
       </div>
