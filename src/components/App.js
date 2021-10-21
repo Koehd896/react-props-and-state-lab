@@ -17,8 +17,8 @@ class App extends React.Component {
 
   handleChange = (event) => {
     this.setState({
-      ...this.state.filters,
-      type: event.target.value
+      filters:
+      {...this.state.filters, type: event.target.value}
     })
   }
 
@@ -27,27 +27,20 @@ class App extends React.Component {
     if (this.state.filters.type === "all") {
       queryParam = ""
     } else {
-      queryParam = `/?${this.state.filters.type}`
+      queryParam = `?type=${this.state.filters.type}`
     }
-    fetch(`api/pets${queryParam}`)
+    fetch(`/api/pets${queryParam}`)
       .then(response => response.json())
-      .then(pet => this.state.pets << pet)
+      .then(pets => this.setState({
+        pets: pets
+      }))
   }
 
   handleAdopt = (id) => {
-
-    const adoptedPet = this.state.pets.find(pet => pet.id === id);
-    const petId = adoptedPet.id;
-    this.setState({
-      ...this.state,
-      
+    const pets = this.state.pets.map(p => {
+     return p.id === id ? {...p, isAdopted: true} : p;
     })
-    //  adoptedPet.isAdopted = true; \
-    //  const updatedPets = this.state.pets
-    // this.setState({
-    //   ...this.state,
-    //   pets: updatedPets
-    // })
+    this.setState({pets: pets});
   }
 
   render() {
@@ -60,13 +53,13 @@ class App extends React.Component {
           <div className="ui grid">
             <div className="four wide column">
               <Filters 
-                onChangeType={(event) => this.handleChange(event)}
-                onFindPetsClick={() => this.handleFetch()}
+                onChangeType={this.handleChange}
+                onFindPetsClick={this.handleFetch}
               />
             </div>
             <div className="twelve wide column">
               <PetBrowser 
-                onAdoptPet={this.handleAdopt(id)}
+                onAdoptPet={this.handleAdopt}
                 pets={this.state.pets}
               />
             </div>
